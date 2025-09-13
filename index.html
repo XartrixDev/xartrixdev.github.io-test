@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatENG</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern, clean font */
+            background-color: #f4f6f8; /* Light, professional background */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #chat-container {
+            width: 400px;
+            border: 1px solid #e0e0e0; /* Subtle border */
+            margin: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            border-radius: 8px; /* Slightly rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 200, 0.2); /* Soft shadow for depth */
+            background-color: #fff; /* Clean container background */
+        }
+
+        #chat-display {
+            flex-grow: 1;
+            padding: 15px; /* Increased padding */
+            overflow-y: auto;
+            background-color: #f9f9f9; /* Light background for messages */
+            border-bottom: 1px solid #eee; /* Separator */
+        }
+
+        .user-message, .bot-message {
+            padding: 10px 15px; /* More comfortable padding */
+            margin-bottom: 10px; /* Increased margin */
+            border-radius: 20px; /* More rounded message bubbles */
+            clear: both; /* Prevent floating issues */
+            font-size: 0.9rem; /* Slightly smaller, professional text */
+        }
+
+        .user-message {
+            background-color: #e1f5fe; /* Light blue for user messages */
+            color: #1a237e; /* Darker text for contrast */
+            text-align: right;
+            float: right; /* Align user messages to the right */
+        }
+
+        .bot-message {
+            background-color: #f0f4c3; /* Light yellow for bot messages */
+            color: #33691e; /* Darker text for contrast */
+            text-align: left;
+            float: left; /* Align bot messages to the left */
+        }
+
+        #input-area {
+            display: flex;
+            padding: 15px; /* Increased padding */
+            border-top: 1px solid #e0e0e0; /* More defined separator */
+            background-color: #fff;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 25px; /* Rounded input field */
+            font-size: 0.9rem;
+        }
+
+        #user-input:focus {
+            outline: none;
+            border-color: #00bcd4; /* Highlight on focus */
+            box-shadow: 0 0 5px rgba(0, 188, 212, 0.3); /* Subtle focus glow */
+        }
+
+        #send-button {
+            padding: 10px 20px; /* More substantial button */
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 25px; /* Rounded button */
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+        }
+
+        #send-button:hover {
+            background-color: #0097a7; /* Darker shade on hover */
+        }
+
+        /* Optional: Add a subtle scrollbar style */
+        #chat-display::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-display::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        #chat-display::-webkit-scrollbar-thumb:hover {
+            background-color: #aaa;
+        }
+    </style>
+</head>
+
+<body onload="loadMemory()">
+    
+    
+    <div id="chat-container">
+        <div id="ad-container" style="width: 100%; height: 5%; max-width: 400px; margin-bottom: 1%; border: 1px solid #ddd;">
+        <iframe id="ads" src="https://www.profitableratecpm.com/fubtpyrw?key=4969e572df7b38b7649b5d553dc45496" width="100%" height="1%" frameborder="0" scrolling="no"></iframe>
+    </div>
+        <div id="chat-display">
+            </div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        
+        
+        var date = new Date();
+  var h = date.getHours(); // 0 - 23
+  var m = date.getMinutes(); // 0 - 59
+  var s = date.getSeconds(); // 0 - 59
+  var session = "AM";
+  var day = date.getDay();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+  var dayDate = date.getDate();
+
+  if(h == 0){
+      h = 12;
+  }
+
+  if(h > 12){
+      h = h - 12;
+      session = "PM";
+  }
+
+  h = (h < 10) ? "0" + h : h;
+  m = (m < 10) ? "0" + m : m;
+  s = (s < 10) ? "0" + s : s;
+
+   time = h + ":" + m + " " + session;
+   when = " ~ " + time + " ~ " + dayDate + "/" + month + "/" + year;
+        
+        
+        const chatDisplay = document.getElementById('chat-display');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const apiKey = 'AIzaSyCtGVt8eCCpsawzY2_yW4bCrYkYOVtrHt8';
+        const geminiModel = 'gemini-2.0-flash';
+        let conversationHistory = [];
+        
+        function loadMemory() {
+        setInterval(loadAds, 1500);
+        const data = "";
+          //  conversationHistory.push({ role: "user", parts: [{ text: "inbuilt memory(This was not sent by user, it was upload by a team. Information should be provided to user only when asked for): Please be reminded that course registration ends on Friday 18th April, 2025. Students are encouraged to complete their course registration before the said deadline to avoid issues with their exams. Please inform your class mates that as soon as they finish physical registration with their course advisers, they are to proceed immediately to pay the sum of 500 naira for exam card to their various class reps in order to complete their course registration. Failure to take this last step will render their course registration null and void. The Mid Semester Test hold as from 22nd of April, all CVE 200L students are to submit their school fees receipt along with their course registration forms (3 copies each) for them to be enlisted/qualify to take the test. Date of submission is Monday (14th of April, 2025) to (16th of April,  2025). Students with carryovers should register their  carryover course first including their ABS before the 200L courses. Whenever their ABS comes out positive (that is if they pass), they will collect \"Add and Drop form\" directly from the Faculty to drop the course, but if they don't pass the ABS, they will continue with what they have already registered.    " }] });
+        }
+
+        function appendMessage(sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add(`${sender}-message`);
+            messageDiv.textContent = message.replaceAll("**", "~").replaceAll("*", "  ★ ");
+            chatDisplay.appendChild(messageDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        sendButton.addEventListener('click', () => {
+            const userMessage = userInput.value.trim();
+            if (userMessage) {
+                appendMessage('user', userMessage);
+                conversationHistory.push({ role: 'user', parts: [{ text: userMessage + when }] });
+                userInput.value = '';
+
+                fetch(`https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: conversationHistory,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                        const botResponse = data.candidates[0].content.parts[0].text.replaceAll("I am a large language model", "I am GenX AI");
+                        appendMessage('bot', botResponse);
+                        conversationHistory.push({ role: 'model', parts: [{ text: botResponse }] });
+                    } else {
+                        appendMessage('bot', 'Error: Could not get a valid response.');
+                        console.error('Server response:', data);
+                    }
+                })
+                .catch(error => {
+                    appendMessage('bot', 'Error: Check your internet connection');
+                    console.error('Error while calling response', error);
+                });
+            }
+        });
+
+        userInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+        
+        function loadAds() {
+        document.getElementById("ads").source = "https://www.profitableratecpm.com/fubtpyrw?key=4969e572df7b38b7649b5d553dc45496";
+        }
+        
+    </script>
+</body>
+</html>
