@@ -27,7 +27,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: black;
             min-height: 100vh;
             padding: 0;
             color: white;
@@ -624,6 +624,7 @@
         const errorContainer = document.getElementById('error-container');
 
         document.addEventListener('DOMContentLoaded', initApp);
+    localStorage.setItem('testtype', 'german');
 
         function initApp() {
             startTestBtn.addEventListener('click', startTest);

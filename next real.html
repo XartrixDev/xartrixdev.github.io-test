@@ -27,7 +27,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: black;
             min-height: 100vh;
             padding: 0;
             color: white;
@@ -623,6 +623,7 @@
         const questionDisplay = document.getElementById('question-display');
         const errorContainer = document.getElementById('error-container');
 
+    localStorage.setItem('testtype', 'mcq');
         document.addEventListener('DOMContentLoaded', initApp);
 
         function initApp() {
